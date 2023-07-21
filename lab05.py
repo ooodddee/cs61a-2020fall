@@ -29,6 +29,9 @@ def distance(city_a, city_b):
     5.0
     """
     "*** YOUR CODE HERE ***"
+    x1 , y1 = get_lat(city_a) , get_lon(city_a)
+    x2 , y2 = get_lat(city_b) , get_lon(city_b)
+    return sqrt((x1 - x2)**2 + (y1 - y2)**2)
 
 def closer_city(lat, lon, city_a, city_b):
     """
@@ -46,6 +49,14 @@ def closer_city(lat, lon, city_a, city_b):
     'Bucharest'
     """
     "*** YOUR CODE HERE ***"
+    x1 , y1 = get_lat(city_a) , get_lon(city_a)
+    x2 , y2 = get_lat(city_b) , get_lon(city_b)
+    if sqrt ((x1 - lat)**2 + (y1 - lon)**2) == sqrt ((x2 - lat)**2 + (y2 - lon)**2):
+        return get_name(city_b)
+    elif sqrt ((x1 - lat)**2 + (y1 - lon)**2) < sqrt ((x2 - lat)**2 + (y2 - lon)**2):
+        return get_name(city_a)
+    else:
+        return get_name(city_b)
 
 def check_city_abstraction():
     """
@@ -145,6 +156,13 @@ def berry_finder(t):
     True
     """
     "*** YOUR CODE HERE ***"
+    if label(t) == 'berry':
+        return True
+    for branch in branches(t):
+        if berry_finder(branch):
+            return True
+    else:
+        return False
 
 
 def sprout_leaves(t, leaves):
@@ -181,6 +199,15 @@ def sprout_leaves(t, leaves):
           2
     """
     "*** YOUR CODE HERE ***"
+    new_branches = []
+    for bran in branches(t):
+        if is_leaf(bran):
+            new_branch = tree(label(bran), [tree(leaf) for leaf in leaves])
+            new_branches = new_branches + [new_branch]
+        else:
+            new_branches = new_branches + [bran]
+    return tree(label(t), new_branches)
+
 
 # Abstraction tests for sprout_leaves and berry_finder
 def check_abstraction():
@@ -229,6 +256,7 @@ def check_abstraction():
           2
     >>> change_abstraction(False)
     """
+
 
 
 def coords(fn, seq, lower, upper):
